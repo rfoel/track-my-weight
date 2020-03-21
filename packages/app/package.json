@@ -22,10 +22,8 @@
     "react-hook-form": "^5.0.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "styled-components": "^5.0.1",
-    "victory-area": "^34.1.1",
-    "victory-chart": "^34.1.1",
-    "victory-scatter": "^34.1.1"
+    "recharts": "^1.8.5",
+    "styled-components": "^5.0.1"
   },
   "browserslist": {
     "production": [

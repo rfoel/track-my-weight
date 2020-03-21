@@ -1,45 +1,42 @@
 import React, { useContext } from 'react'
 import { arrayOf, number, shape, string } from 'prop-types'
-import styled, { ThemeContext } from 'styled-components'
-import { VictoryArea } from 'victory-area'
+import { ThemeContext } from 'styled-components'
+import { Area, AreaChart, ResponsiveContainer } from 'recharts'
+import dayjs from 'dayjs'
 
-const StyledAreaChart = styled.div`
-  svg {
-    margin-bottom: -4px;
-  }
-`
-
-const AreaChart = ({ data }) => {
+const Chart = ({ weights, week }) => {
   const {
     colors: { primary },
   } = useContext(ThemeContext)
 
-  if (!data.length > 0) return null
+  if (!weights.length > 0) return null
 
-  const maxWeight = Math.max(...data.map(({ weight }) => weight))
-  const minWeight = Math.min(...data.map(({ weight }) => weight))
+  const data = week.map(day => {
+    return (
+      weights.find(({ date }) => dayjs(date).format('YYYY-MM-DD') === day.format('YYYY-MM-DD')) || {
+        date: day,
+        weight: 0,
+      }
+    )
+  })
 
   return (
-    <StyledAreaChart>
-      <VictoryArea
-        data={data}
-        domain={{ y: [minWeight - 1, maxWeight + 1] }}
-        padding={0}
-        style={{ data: { fill: primary.dark } }}
-        x={d => new Date(d.date)}
-        y={d => d.weight}
-        width={1000}
-      />
-    </StyledAreaChart>
+    <ResponsiveContainer width="99%" height={300}>
+      <AreaChart data={data} margin={{ left: 0, bottom: 0 }}>
+        <Area dataKey="weight" fill={primary.dark} isAnimationActive={false} stroke="transparent" />
+      </AreaChart>
+    </ResponsiveContainer>
   )
 }
 
-AreaChart.propTypes = {
-  data: arrayOf(shape({ date: string, weight: number })),
+Chart.propTypes = {
+  week: arrayOf(string),
+  weights: arrayOf(shape({ date: string, weight: number })),
 }
 
-AreaChart.defaultProps = {
-  data: [],
+Chart.defaultProps = {
+  week: [],
+  weights: [],
 }
 
-export default AreaChart
+export default Chart

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import dayjs from 'dayjs'
 import styled, { css } from 'styled-components'
-import { Box, Column, Grid, Heading, Text } from '@1e3/ui'
+import { Box, Column, Grid, Heading } from '@1e3/ui'
 
 import AreaChart from '../components/AreaChart'
 import AddButton from '../components/AddButton'
@@ -29,28 +29,52 @@ const Home = styled(Grid)(
     },
   }) => css`
     color: ${white};
-    height: 100%;
+    min-height: 100%;
+    grid-template-rows: 100px 150px 1fr;
+    overflow: hidden;
     width: 100%;
 
     h1 {
-      margin: ${scale(2)};
+      margin: ${scale(1)};
       text-align: center;
     }
   `,
 )
 
+const Week = styled.div(
+  ({ justify }) => css`
+    align-items: flex-start;
+    display: flex;
+    justify-content: ${justify};
+    overflow-x: auto;
+  `,
+)
+
 const Day = styled(Box)(
   ({
+    off,
     theme: {
-      colors: { white },
+      colors: { primary, white },
+      scale,
     },
   }) => css`
-    align-items: center;
-    border: 1px solid ${white};
     color: ${white};
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    padding: ${scale(2)};
+    text-align: center;
+
+    span {
+      font-size: ${scale(2)};
+    }
+
+    h1 {
+      white-space: nowrap;
+    }
+
+    ${off &&
+      css`
+        color: ${primary.dark};
+        font-size: ${scale(1)};
+      `}
   `,
 )
 
@@ -69,42 +93,55 @@ const getWeek = date => {
 }
 
 export default () => {
+  const ref = useRef(null)
   const {
     data: { weights, filter },
   } = useQuery(GET_DATA)
+  const [start, setStart] = useState(false)
 
   const week = getWeek(filter.date)
 
+  useEffect(() => {
+    const observer = new ResizeObserver(([entry]) => {
+      const { target } = entry
+      setStart(target.scrollWidth > target.clientWidth)
+    })
+
+    const element = ref.current
+    observer.observe(element)
+    return () => {
+      observer.unobserve(element)
+    }
+  }, [ref])
+
   return (
     <Home>
-      <Column align="end" justify="center">
+      <Column align="center">
         <Heading>
           Track my weight
           <AddButton />
         </Heading>
-        <Grid columns={7} gap={2}>
-          {week.map(day => {
-            const entry = weights.find(
-              ({ date }) => dayjs(date).format('YYYY-MM-DD') === day.format('YYYY-MM-DD'),
-            )
-            return (
-              <Column key={day.format('YYYY-MM-DD')}>
-                <Day padding={2}>
-                  <Heading as="h2" fontSize={2}>
-                    {day.format('ddd')}
-                  </Heading>
-                  <Heading as="h2" fontSize={2}>
-                    {day.format('DD')}
-                  </Heading>
-                  {entry ? <Heading fontSize={3}>{entry.weight} kg</Heading> : <Text>No data</Text>}
-                </Day>
-              </Column>
-            )
-          })}
-        </Grid>
       </Column>
+      <Week justify={start ? 'flex-start' : 'center'} ref={ref}>
+        {week.map(day => {
+          const entry = weights.find(
+            ({ date }) => dayjs(date).format('YYYY-MM-DD') === day.format('YYYY-MM-DD'),
+          )
+          return (
+            <Day key={day.format('YYYY-MM-DD')} off={!entry}>
+              <Heading fontSize={1.5}>{day.format('dd').slice(0, 1)}</Heading>
+              <Heading fontSize={2}>{day.format('DD')}</Heading>
+              {entry && (
+                <Heading fontSize={3}>
+                  {entry.weight} <span>kg</span>
+                </Heading>
+              )}
+            </Day>
+          )
+        })}
+      </Week>
       <Column align="end">
-        <AreaChart data={weights} />
+        <AreaChart weights={weights} week={week} />
       </Column>
     </Home>
   )
