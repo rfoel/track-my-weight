@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import dayjs from 'dayjs'
 import styled, { css } from 'styled-components'
+import ResizeObserver from 'resize-observer-polyfill'
 import { Box, Column, Grid, Heading } from '@1e3/ui'
 
 import AreaChart from '../components/AreaChart'
