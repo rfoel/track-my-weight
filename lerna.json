@@ -5,6 +5,7 @@
   "useWorkspaces": true,
   "command": {
     "version": {
+      "conventionalCommits": true,
       "conventionalGraduate": true,
       "createRelease": "github",
       "message": "chore: release"
