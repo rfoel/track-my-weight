@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@1e3/tokens/-/tokens-0.1.18.tgz#f1310e9af8432ecfbb18cca66d5bc44dcb402339"
   integrity sha512-RZErvx1ATiywfIIESSK/zwqELuUQjyzMgETuAR2ikyVwU3v5Cb95HD7FexHh1DHQMkX7DHBWe3a2YHKPgtRWzA==
 
-"@1e3/ui@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@1e3/ui/-/ui-1.3.0.tgz#f5b54b7dc1606ad473cce86868493ccffac3eb15"
-  integrity sha512-hdsdc1E2Id6UdPGCVHZd3v36HBYMJP3lfjB7JttIEF80/2oFMns1S2FIZxWOfUXntdvgHlA7QoivUf1EVpAUTA==
+"@1e3/ui@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@1e3/ui/-/ui-1.4.0.tgz#3516819b91fbb09f8561b26e8345547b722be9fb"
+  integrity sha512-7EScINl49q2oKnLh1ZtDS8Hgdwbzu4pkzoLhH3qhuBflFMTak5S2Gl/4zL7aFyHR6Eymu9R6w5HN3ffMLhAYHw==
   dependencies:
     "@1e3/tokens" "^0.1.18"
     polished "^3.4.4"

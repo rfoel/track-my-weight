@@ -1,13 +1,11 @@
 {
   "npmClient": "yarn",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "independent",
   "useWorkspaces": true,
   "command": {
     "version": {
-      "conventionalCommits": true,
+      "conventionalGraduate": true,
       "createRelease": "github",
       "message": "chore: release"
     }

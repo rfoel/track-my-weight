@@ -59,6 +59,7 @@ const KgInput = forwardRef(({ max, onChange, value, ...props }, ref) => {
       <Column>
         <Input
           inverted
+          inputMode="numeric"
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           ref={ref}
