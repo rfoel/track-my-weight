@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/rfoel/track-my-weight/compare/app@0.1.0...app@0.1.1) (2020-03-27)
+
+
+### Bug Fixes
+
+* change inputmode type to numeric ([be0caea](https://github.com/rfoel/track-my-weight/commit/be0caea406abeaed66104c2a4fd880e23effd208))
+
+
+
+
+
 # [0.1.0](https://github.com/rfoel/track-my-weight/compare/app@0.0.1...app@0.1.0) (2020-03-25)
 
 
